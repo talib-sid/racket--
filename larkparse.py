@@ -5,8 +5,6 @@ from lark.tree import Tree, Branch, pydot__tree_to_png, pydot__tree_to_dot, pydo
 # from anytree import Node, RenderTree
 # from typing import Any, Dict, List, Union
 
-
-
 # Define the Racket grammar with fixed regex patterns
 RACKET_GRAMMAR = r"""?start: expr+
 ?expr: atom
