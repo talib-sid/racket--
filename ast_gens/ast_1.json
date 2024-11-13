@@ -1,0 +1,27 @@
+start
+  ;;; #lang racket
+  {'type': 'FunctionDefinition', 'name': 'sum', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '+', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'subtract', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '-', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'multiply', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '*', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'divide', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '/', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'my_odd?', 'params': ['x'], 'body': {'type': 'BinaryOperation', 'operator': '=', 'left': {'type': 'list', 'items': [{'type': 'symbol', 'value': 'modulo'}, {'type': 'symbol', 'value': 'x'}, {'type': 'number', 'value': 2}]}, 'right': {'type': 'number', 'value': 1}}}
+  {'type': 'FunctionDefinition', 'name': 'my_even?', 'params': ['x'], 'body': {'type': 'BinaryOperation', 'operator': '=', 'left': {'type': 'list', 'items': [{'type': 'symbol', 'value': 'modulo'}, {'type': 'symbol', 'value': 'x'}, {'type': 'number', 'value': 2}]}, 'right': {'type': 'number', 'value': 0}}}
+  {'type': 'FunctionDefinition', 'name': 'greater?', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '>=', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'less?', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '<=', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'equal?', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '=', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'not-equal?', 'params': ['x', 'y'], 'body': {'type': 'UnaryOperation', 'operator': 'not', 'value': {'type': 'BinaryOperation', 'operator': '=', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}}
+  {'type': 'FunctionDefinition', 'name': 'and?', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': 'and', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'or?', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': 'or', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
+  {'type': 'FunctionDefinition', 'name': 'not?', 'params': ['x'], 'body': {'type': 'UnaryOperation', 'operator': 'not', 'value': {'type': 'symbol', 'value': 'x'}}}
+  {'type': 'FunctionDefinition', 'name': 'parity', 'params': ['x'], 'body': {'type': 'IfStatement', 'cond': {'type': 'list', 'items': [{'type': 'symbol', 'value': 'my_odd?'}, {'type': 'symbol', 'value': 'x'}]}, 'then': {'type': 'string', 'value': 'odd'}, 'elze': {'type': 'string', 'value': 'even'}}}
+  ; test
+  {'type': 'list', 'items': [{'type': 'symbol', 'value': 'greater?'}, {'type': 'number', 'value': 5}, {'type': 'number', 'value': 10}]}
+  {'type': 'list', 'items': [{'type': 'symbol', 'value': 'less?'}, {'type': 'number', 'value': 10}, {'type': 'number', 'value': 5}]}
+  {'type': 'list', 'items': [{'type': 'symbol', 'value': 'equal?'}, {'type': 'number', 'value': 10}, {'type': 'number', 'value': 5}]}
+  {'type': 'list', 'items': [{'type': 'symbol', 'value': 'not-equal?'}, {'type': 'number', 'value': 10}, {'type': 'number', 'value': 5}]}
+  {'type': 'list', 'items': [{'type': 'symbol', 'value': 'and?'}, {'type': 'boolean', 'value': True}, {'type': 'boolean', 'value': False}]}
+  {'type': 'list', 'items': [{'type': 'symbol', 'value': 'or?'}, {'type': 'boolean', 'value': True}, {'type': 'boolean', 'value': False}]}
+  {'type': 'list', 'items': [{'type': 'symbol', 'value': 'not?'}, {'type': 'boolean', 'value': True}]}
+  {'type': 'PrintStatement', 'value': {'type': 'string', 'value': 'Hello, World!'}}
+  {'type': 'VariableDeclaration', 'name': 'a', 'value': {'type': 'number', 'value': 10}}
+  {'type': 'VariableDeclaration', 'name': 'b', 'value': {'type': 'number', 'value': 5}}
