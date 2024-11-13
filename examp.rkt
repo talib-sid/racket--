@@ -1,22 +1,21 @@
 ;;; #lang racket
-;;; (define (sum x y)
-;;;     (+ x y))
+(define (sum x y)
+    (+ x y))
 
-;;; (define (subtract x y)
-;;;     (- x y))
+(define (subtract x y)
+    (- x y))
 
-;;; (define (multiply x y)
-;;;     (* x y))
+(define (multiply x y)
+    (* x y))
 
-;;; (define (divide x y)
-;;;     (/ x y))
+(define (divide x y)
+    (/ x y))
 
-;;; (define (odd? x)
-;;;     (= (modulo x 2) 1))
+(define (my_odd? x)
+    (= (modulo x 2) 1))
 
-;;; (define (even? x)
-;;;     (= (modulo x 2) 0))
-
+(define (my_even? x)
+    (= (modulo x 2) 0))
 
 (define (greater? x y)
     (>= x y))
@@ -39,6 +38,10 @@
 (define (not? x)
     (not x))
 
+(define (parity x)
+    (if (my_odd? x)
+        "odd"
+        "even"))
 
 ; test
 (greater?  5 10)
