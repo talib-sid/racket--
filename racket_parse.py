@@ -1,5 +1,5 @@
-# import json
-# import sys
+import json
+import sys
 from lark import Lark, Transformer
 from lark.tree import Tree, Branch, pydot__tree_to_png, pydot__tree_to_dot, pydot__tree_to_graph
 # from anytree import Node, RenderTree
@@ -19,7 +19,7 @@ quoted: "'" expr
         | boolean
 boolean: "#t" -> true
         | "#f" -> false
-SYMBOL: /[a-zA-Z_+\-*\/>=<][a-zA-Z0-9_+\-*\/>=<!?]*/
+SYMBOL: /[a-zA-Z_+\-*\/%=<>][a-zA-Z0-9_+\-*\/%>=<!?]*/
 NUMBER: /[-]?[0-9]+(\.[0-9]+)?/
 STRING: /"[^"]*"/
 COMMENT: /;[^\n]*/
@@ -32,7 +32,7 @@ class RacketTransformer(Transformer):
         # Check if this list is a function or variable definition
         if len(items) > 0 and items[0]["type"] == "symbol":
             op = items[0]["value"]
-            if op in {"+", "-", "*", "=","/", ">", "<", ">=", "<=", "==", "!=", "and", "or"}:
+            if op in {"+", "-", "*", "=","/","%", ">", "<", ">=", "<=", "==", "!=", "and", "or"}:
                 return {
                     "type": "BinaryOperation",
                     "operator": op,
@@ -156,15 +156,17 @@ class RacketParser:
 # Example usage
 if __name__ == "__main__":
     parser = RacketParser()
-    # racket_file = "f1.rkt"
-    racket_file = "examp.rkt"
+    # take input from cmd line
+    racket_file = sys.argv[1]
+    # racket_file = "examp.rkt"
+
 
     try:
         ast = parser.parse_file(racket_file)
         # ast = parser.parse(test_code)
         # ast = parser.parse(f1)
 
-        # print("Parsed successfully!")
+        print("Parsed successfully!")
         print(ast.pretty())
 
         # Putting this in a json file

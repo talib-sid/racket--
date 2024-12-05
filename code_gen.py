@@ -1,3 +1,8 @@
+import subprocess
+import sys
+import json
+
+
 class CPlusPlusCodeGenerator:
     def __init__(self, ast): # ast is a list of dictionaries
         self.ast = ast
@@ -21,10 +26,13 @@ class CPlusPlusCodeGenerator:
 
     def generate_define(self, node):
         # Detect if it's a function or variable based on structure
-        # define_type = 'function' if isinstance(node['items'][1], dict) and node['items'][1]['type'] == 'list' else 'variable'
-
-        # Defined a variable
         # type == VariableDeclaration
+
+        # Check if it's an operation call
+        if node['type'] == 'BinaryOperation' or node['type'] == 'UnaryOperation':
+            return self.handle_operations(node)
+    
+        # Defined a variable
         if node['type'] == 'VariableDeclaration':
             var_name = node['name']
             var_value = node['value']['value']
@@ -32,33 +40,27 @@ class CPlusPlusCodeGenerator:
         if node['type'] == 'FunctionDefinition':
             func_name = node['name']
             params = [f"auto {param}" for param in node['params']]
+            # print(node['body'])
             body = self.handle_node(node['body'])
+            
             return f"\tauto {func_name}({', '.join(params)}) {{ return {body}; }}"
-        
-        return f"// comment"
-        # print(node)
-
-        # if define_type == 'function':
-        #     func_name = node['items'][1]['items'][0]['value']
-        #     params = [f"int {param['value']}" for param in node['items'][1]['items'][1:]]
-        #     body = self.handle_node(node['items'][2])
-        #     return f"int {func_name}({', '.join(params)}) {{ return {body}; }}"
-
-        # elif define_type == 'variable':
-        #     var_name = node['items'][1]['value']
-        #     var_value = self.handle_node(node['items'][2])
-        #     return f"int {var_name} = {var_value};"
+        # return f""
 
     def handle_operations(self, node):
         # print(node)
         # print(node['operator'])
+
         if(node['type'] == 'BinaryOperation'):
-            left = self.handle_node(node['left'])
-            right = self.handle_node(node['right'])
+            # left = self.handle_node(node['left'])
+            # right = self.handle_node(node['right'])
+            left = node['left']['value']
+            right = node['right']['value']
             return f"{left} {node['operator']} {right}"
+    
         if(node['type'] == 'UnaryOperation'):
             operand = self.handle_node(node['operand'])
             return f"{node['operator']} {operand}"
+    
 
 
 # Usage
@@ -66,35 +68,11 @@ class CPlusPlusCodeGenerator:
 # with open(json_file) as file:
 
 if __name__ == "__main__":
-    # Read the JSON data
-    # with open("ast_gens/ast_1.json") as file:
-    #     data = json.load(file)
-    data = [
-        {         
-            "type": "VariableDeclaration",
-            "name": "a",
-            "value": {"type": "number", "value": 10}
-        },
-        {
-            "type": "VariableDeclaration",
-            "name": "b",
-            "value": {"type": "number", "value": 5}
-        },
-        {    
-            "type": "FunctionDefinition",
-            "name": "sum",
-            "params": [
-                "x",
-                "y"
-            ],
-            "body": {
-                "type": "BinaryOperation",
-                "operator": "+",
-                "left": {"type": "symbol","value": "x"},
-                "right": {"type": "symbol","value": "y"}
-            }
-        }
-    ]
+    # file_name = sys.argv[1]
+    file_name = "ast_gens/ast_1.txt"
+    data = []
+    with open(file_name) as file:
+        data = json.load(file)
 
     # Generate C++ code
     generator = CPlusPlusCodeGenerator(data)
@@ -104,9 +82,14 @@ if __name__ == "__main__":
     with open("output.cpp", "w") as file:
         file.write("#include <iostream>\n\n")
         file.write("using namespace std;\n\n")
-        file.write("int main() {\n")
-        file.write(code)
-        file.write("\n\n\treturn 0;\n}")
 
+        # file.write("int main() {\n")
+        file.write(code)
+        # file.write("\n\n\treturn 0;\n}")
+
+    
+    # Using Clang-format to add proper indentation
+    subprocess.run(["clang-format", "-i", "output.cpp"])
+    # Shift to astyle later
 
     print("C++ code generated and saved to 'output.cpp'")
