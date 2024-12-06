@@ -10,17 +10,17 @@ ast_file_dir = "ast_gens"
 code_file_dir = "cpp_tests"
 
 
-# print("\n\nConverting all racket files to ASTs")
-# rack_tests = [f"{rack_test_dir}/{file}" for file in os.listdir(rack_test_dir) if file.endswith(".rkt")]
-# for rkt_file in rack_tests:
-#     print(f"Processing {rkt_file}")
-#     racket_parse.run(rkt_file)
+print("\n\nConverting all racket files to ASTs")
+rack_tests = [f"{rack_test_dir}/{file}" for file in os.listdir(rack_test_dir) if file.endswith(".rkt")]
+for rkt_file in rack_tests:
+    print(f"Processing {rkt_file}")
+    racket_parse.run(rkt_file)
 
 
-# print("Converting all ASTs to Compatible Json\n")
-# test_asts = [f"{ast_file_dir}/{file}" for file in os.listdir(ast_file_dir) if file.endswith(".json")]
-# for ast in test_asts:
-#     jsoner.run(ast)
+print("Converting all ASTs to Compatible Json\n")
+test_asts = [f"{ast_file_dir}/{file}" for file in os.listdir(ast_file_dir) if file.endswith(".json")]
+for ast in test_asts:
+    jsoner.run(ast)
 
 
 print("Generating code for all ASTs\n") 
@@ -42,5 +42,5 @@ for cmp in cmp_tests:
 #     print(f"Running {out_file}")
 #     subprocess.run([out_file])
 
-# print("\n\nDone!")
+print("\n\nDone!")
 
