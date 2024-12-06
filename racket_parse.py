@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 from lark import Lark, Transformer
 from lark.tree import Tree, Branch, pydot__tree_to_png, pydot__tree_to_dot, pydot__tree_to_graph
@@ -153,31 +154,46 @@ class RacketParser:
         except Exception as e:
             raise Exception(f"Parsing error: {str(e)}")
 
-# Example usage
-if __name__ == "__main__":
+
+def run(racket_file):
     parser = RacketParser()
-    # take input from cmd line
-    racket_file = sys.argv[1]
-    # racket_file = "examp.rkt"
-
-
     try:
         ast = parser.parse_file(racket_file)
-        # ast = parser.parse(test_code)
-        # ast = parser.parse(f1)
-
         print("Parsed successfully!")
-        print(ast.pretty())
 
-        # Putting this in a json file
-        v_name = "1"
+        # print(ast.pretty())
+        racket_filename = os.path.basename(racket_file).split('.')[0]
+        v_name = racket_filename
         ast_dir = f"ast_gens/ast_{v_name}.json"
+        
         with open(ast_dir, "w") as f:
             f.write(ast.pretty())
-            
-
  
     except Exception as e:
         print(f"Error: {e}")
 
-    
+
+if __name__ == "__main__":
+    parser = RacketParser()
+    racket_file = sys.argv[1]
+
+    try:
+        ast = parser.parse_file(racket_file)
+        print("Parsed successfully!")
+        print(ast.pretty())
+
+        # Extract the racket filename
+        racket_filename = os.path.basename(racket_file).split('.')[0]
+        v_name = racket_filename
+        
+        # for UNIX based systems, we can use this 
+        # racket_filename = racket_file.split('/')[-1].split('.')[0]
+        # v_name = racket_filename
+
+        ast_dir = f"ast_gens/ast_{v_name}.json"
+        with open(ast_dir, "w") as f:
+            f.write(ast.pretty())
+ 
+    except Exception as e:
+        print(f"Error: {e}")
+

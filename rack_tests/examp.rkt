@@ -12,10 +12,10 @@
     (/ x y))
 
 (define (my_odd? x)
-    (= (modulo x 2) 1))
+    (= (% x 2) 1))
 
 (define (my_even? x)
-    (= (modulo x 2) 0))
+    (= (% x 2) 0))
 
 (define (greater? x y)
     (>= x y))

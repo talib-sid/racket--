@@ -1,0 +1,42 @@
+[
+  {
+    "type": "FunctionDefinition",
+    "name": "greater?",
+    "params": [
+      "x",
+      "y"
+    ],
+    "body": {
+      "type": "BinaryOperation",
+      "operator": ">=",
+      "left": {
+        "type": "symbol",
+        "value": "x"
+      },
+      "right": {
+        "type": "symbol",
+        "value": "y"
+      }
+    }
+  },
+  {
+    "type": "FunctionDefinition",
+    "name": "less?",
+    "params": [
+      "x",
+      "y"
+    ],
+    "body": {
+      "type": "BinaryOperation",
+      "operator": "<=",
+      "left": {
+        "type": "symbol",
+        "value": "x"
+      },
+      "right": {
+        "type": "symbol",
+        "value": "y"
+      }
+    }
+  }
+]

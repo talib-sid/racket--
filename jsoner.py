@@ -1,39 +1,40 @@
 import json
+import sys
 import re
 
-# Original raw string with data (as multiline string for example)
-# data = """
-#   {'type': 'FunctionDefinition', 'name': 'greater?', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '>=', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
-#   {'type': 'FunctionDefinition', 'name': 'less?', 'params': ['x', 'y'], 'body': {'type': 'BinaryOperation', 'operator': '<=', 'left': {'type': 'symbol', 'value': 'x'}, 'right': {'type': 'symbol', 'value': 'y'}}}
-#   # ... more data as shown in your message
-# """
+def process_ast_file(ast_file):
+    with open(ast_file) as file:
+        data = file.read()
 
-# read data from file
-ast_file = "ast_gens/ast_1.json"
+    clean_data = re.sub(r";.*|#.*", "", data)  
+    clean_data = clean_data.replace("'", "\"")  
+    clean_data = re.sub(r'\bTrue\b', 'true', clean_data)
+    clean_data = re.sub(r'\bFalse\b', 'false', clean_data) 
 
-with open(ast_file) as file:
-    data = file.read()
+    data_list = []
+    for line in clean_data.splitlines():
+        # Ignore first line
+        if line == "start":
+            continue
 
-clean_data = re.sub(r";.*|#.*", "", data)  
-clean_data = clean_data.replace("'", "\"")  
-clean_data = re.sub(r'\bTrue\b', 'true', clean_data)
-clean_data = re.sub(r'\bFalse\b', 'false', clean_data) 
+        line = line.strip()
+        if line:
+            try:
+                data_list.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                print(f"Error decoding line: {line}\n{e}")
 
-data_list = []
-for line in clean_data.splitlines():
-    #ignore first line
-    if line == "start":
-        continue
+    output_file = f"{ast_file}".removesuffix(".json") + ".txt"
+    with open(output_file, "w") as file:
+        json.dump(data_list, file, indent=2)
 
-    line = line.strip()
-    if line:
-        try:
-            data_list.append(json.loads(line))
-        except json.JSONDecodeError as e:
-            print(f"Error decoding line: {line}\n{e}")
+    print("JSON data saved")
 
-with open(f"{ast_file}".removesuffix(".json")+".txt", "w") as file:
-    json.dump(data_list, file, indent=2)
+# Example usage
+def run(ast_file):
+    process_ast_file(ast_file)
 
-print("JSON data saved")
-
+if __name__ == "__main__":
+    # ast_file = "ast_gens/ast_1.json"
+    ast_file = sys.argv[1]
+    process_ast_file(ast_file=ast_file)
