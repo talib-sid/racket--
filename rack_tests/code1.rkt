@@ -12,3 +12,9 @@
 
 (define (modulo a b)
         (% a b))
+
+
+(subtract a b)
+(define x (sum a b))
+(product a b)
+(modulo a b)

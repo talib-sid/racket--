@@ -159,7 +159,7 @@ def run(racket_file):
     parser = RacketParser()
     try:
         ast = parser.parse_file(racket_file)
-        print("Parsed successfully!")
+        print("Parsed successfully! \n")
 
         # print(ast.pretty())
         racket_filename = os.path.basename(racket_file).split('.')[0]

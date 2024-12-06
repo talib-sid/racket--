@@ -94,5 +94,77 @@
         "value": "b"
       }
     }
+  },
+  {
+    "type": "list",
+    "items": [
+      {
+        "type": "symbol",
+        "value": "subtract"
+      },
+      {
+        "type": "symbol",
+        "value": "a"
+      },
+      {
+        "type": "symbol",
+        "value": "b"
+      }
+    ]
+  },
+  {
+    "type": "VariableDeclaration",
+    "name": "x",
+    "value": {
+      "type": "list",
+      "items": [
+        {
+          "type": "symbol",
+          "value": "sum"
+        },
+        {
+          "type": "symbol",
+          "value": "a"
+        },
+        {
+          "type": "symbol",
+          "value": "b"
+        }
+      ]
+    }
+  },
+  {
+    "type": "list",
+    "items": [
+      {
+        "type": "symbol",
+        "value": "product"
+      },
+      {
+        "type": "symbol",
+        "value": "a"
+      },
+      {
+        "type": "symbol",
+        "value": "b"
+      }
+    ]
+  },
+  {
+    "type": "list",
+    "items": [
+      {
+        "type": "symbol",
+        "value": "modulo"
+      },
+      {
+        "type": "symbol",
+        "value": "a"
+      },
+      {
+        "type": "symbol",
+        "value": "b"
+      }
+    ]
   }
 ]

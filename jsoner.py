@@ -28,7 +28,7 @@ def process_ast_file(ast_file):
     with open(output_file, "w") as file:
         json.dump(data_list, file, indent=2)
 
-    print("JSON data saved")
+    print("JSON data saved\n")
 
 # Example usage
 def run(ast_file):

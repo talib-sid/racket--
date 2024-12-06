@@ -1,7 +1,7 @@
 [
   {
     "type": "FunctionDefinition",
-    "name": "my_odd?",
+    "name": "my_odd",
     "params": [
       "x"
     ],
@@ -28,7 +28,7 @@
   },
   {
     "type": "FunctionDefinition",
-    "name": "my_even?",
+    "name": "my_even",
     "params": [
       "x"
     ],
