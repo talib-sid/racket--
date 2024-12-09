@@ -48,6 +48,10 @@ class CPlusPlusCodeGenerator:
                 return self.generate_print_statement(node)
         elif(node['type'] == 'FunctionDefinition'):
             return self.generate_function_definition(node)
+        elif node['type'] == 'ListDeclaration':
+            return self.generate_list_declaration(node)
+        elif node['type'] == 'ListOperation':
+            return self.generate_list_operation(node)
         else:
             return f"Error"
         
@@ -68,6 +72,8 @@ class CPlusPlusCodeGenerator:
     
     def generate_main_function(self,node=None,isVarAssign=False, 
                                var_name=None):
+        # case 1 : when the main function is calling a function
+
         # for the assignment of a variable in the main function
         # (only when it is calling a function)
         if(isVarAssign): 
@@ -87,13 +93,20 @@ class CPlusPlusCodeGenerator:
     
         
     def generate_variable_declaration(self, node):
-        var_name = node['name']
+        var_name = self.sanitize_identifier(node["name"])
 
         # var_value = self.handle_node(node['value'])
         
         self.variables.add(var_name)
         type = node['value']['type']
     
+        if type == "ListOperation":
+            value_code = self.handle_node(node["value"])
+            if node["value"]["operator"] in {"car"}:
+                return f"int {var_name} = {value_code};"
+            elif node["value"]["operator"] in {"cdr", "cons"}:
+                return f"std::vector<int> {var_name} = {value_code};"
+
         if(type == 'number'): 
             val = self.handle_node(node['value'])
             return f"int {var_name} = {val};"
@@ -117,7 +130,45 @@ class CPlusPlusCodeGenerator:
         self.functions.add(func_name)
         return f"\tauto {func_name}({', '.join(params)}) {{ return {body}; }}"
 
+    def generate_list_declaration(self, node):
+        list_name = self.sanitize_identifier(node['name'])
+        items = [item['value'] for item in node['items']]
+        items_str = ", ".join(map(str, items))  # Convert the items to a comma-separated string
+        return f"\tstd::vector<int> {list_name} = {{ {items_str} }};"
 
+    # def generate_list_operation(self, node):
+    #     operator = node["operator"]
+    #     args = [self.handle_node(arg) for arg in node["args"]]
+
+    #     if operator == "car":
+    #         # Access the first element of the vector
+    #         return f"{args[0]}.front();\n"
+    #     elif operator == "cdr":
+    #         # Create a subvector excluding the first element
+    #         return f"std::vector<int>({args[0]}.begin() + 1, {args[0]}.end());\n"
+    #     elif operator == "cons":
+    #         # Add a new element at the front of the vector
+    #         # return f"([]{{ std::vector<int> temp = {{ {args[0]} }}; temp.insert(temp.end(), {args[1]}.begin(), {args[1]}.end()); return temp; }}())"
+    #         return f"std::vector<int> {args[1]}.emplace({args[1]}.begin(),{args[0]});\n"
+        
+    #     else:
+    #         raise ValueError(f"Unsupported list operation: {operator}")
+
+    def generate_list_operation(self, node):
+        operator = node["operator"]
+        args = [self.handle_node(arg) for arg in node["args"]]
+
+        if operator == "car":
+            # Access the first element of the vector
+            return f"{args[0]}.front()"
+        elif operator == "cdr":
+            # Create a subvector excluding the first element
+            return f"std::vector<int>({args[0]}.begin() + 1, {args[0]}.end())"
+        elif operator == "cons":
+            # Add a new element at the front of the vector
+            return f"([]{{ std::vector<int> temp = {{ {args[0]} }}; temp.insert(temp.end(), {args[1]}.begin(), {args[1]}.end()); return temp; }}())"
+        else:
+            raise ValueError(f"Unsupported list operation: {operator}")
 
     def handle_operations(self, node):
         
@@ -159,7 +210,8 @@ def run(file_name):
     output_file = f"cpp_tests/{file_name}.cpp"
     
     with open(output_file, "w") as file:
-        file.write("#include <iostream>\n\n")
+        file.write("#include <iostream>\n")
+        file.write("#include <vector>\n\n")
         file.write("using namespace std;\n\n")
 
         # file.write("int main() {\n")

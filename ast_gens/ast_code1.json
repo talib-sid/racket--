@@ -6,6 +6,6 @@ start
   {'type': 'FunctionDefinition', 'name': 'product', 'params': ['a', 'b'], 'body': {'type': 'BinaryOperation', 'operator': '*', 'left': {'type': 'symbol', 'value': 'a'}, 'right': {'type': 'symbol', 'value': 'b'}}}
   {'type': 'FunctionDefinition', 'name': 'modulo', 'params': ['a', 'b'], 'body': {'type': 'BinaryOperation', 'operator': '%', 'left': {'type': 'symbol', 'value': 'a'}, 'right': {'type': 'symbol', 'value': 'b'}}}
   {'type': 'list', 'items': [{'type': 'symbol', 'value': 'subtract'}, {'type': 'symbol', 'value': 'a'}, {'type': 'symbol', 'value': 'b'}]}
-  {'type': 'VariableDeclaration', 'name': 'x', 'value': {'type': 'list', 'items': [{'type': 'symbol', 'value': 'sum'}, {'type': 'symbol', 'value': 'a'}, {'type': 'symbol', 'value': 'b'}]}}
+  {'type': 'ListDeclaration', 'name': 'x', 'items': [{'type': 'symbol', 'value': 'sum'}, {'type': 'symbol', 'value': 'a'}, {'type': 'symbol', 'value': 'b'}]}
   {'type': 'list', 'items': [{'type': 'symbol', 'value': 'product'}, {'type': 'symbol', 'value': 'a'}, {'type': 'symbol', 'value': 'b'}]}
   {'type': 'list', 'items': [{'type': 'symbol', 'value': 'modulo'}, {'type': 'symbol', 'value': 'a'}, {'type': 'symbol', 'value': 'b'}]}

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -9,9 +10,9 @@ auto subtract(auto a, auto b) { return a - b; }
 auto product(auto a, auto b) { return a * b; }
 auto modulo(auto a, auto b) { return a % b; }
 
-int main() {
+std::vector<int> x = {sum, a, b};
 
-  auto x = sum(a, b);
+int main() {
   subtract(a, b);
   product(a, b);
   modulo(a, b);

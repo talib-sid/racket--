@@ -83,7 +83,17 @@ class RacketTransformer(Transformer):
                     "value": items[1]
                 }
             elif op in {"list"}:
-                return self.handle_list(items)
+                return {
+                    "type": "list",
+                    "items": items[1:]  # Exclude the "list" symbol
+                }
+            elif op in {"car","cdr","cons"}:
+                return {
+                    "type": "ListOperation",
+                    "operator": op,
+                    "args": items[1:]
+                }
+                # return self.handle_list(items)
             # else:
             #     return {"type": op, "items": items}
                 # raise Exception(f"Unknown operator: {op}")
@@ -106,6 +116,14 @@ class RacketTransformer(Transformer):
                 "name": function_name,
                 "params": params,
                 "body": body
+            }
+        elif items[2]["type"] == "list":
+        # Variable declaration with a list
+            var_name = items[1]["value"]
+            return {
+                "type": "ListDeclaration",
+                "name": var_name,
+                "items": items[2]["items"]
             }
         else:
             # Variable definition

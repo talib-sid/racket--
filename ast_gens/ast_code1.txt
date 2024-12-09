@@ -113,25 +113,22 @@
     ]
   },
   {
-    "type": "VariableDeclaration",
+    "type": "ListDeclaration",
     "name": "x",
-    "value": {
-      "type": "list",
-      "items": [
-        {
-          "type": "symbol",
-          "value": "sum"
-        },
-        {
-          "type": "symbol",
-          "value": "a"
-        },
-        {
-          "type": "symbol",
-          "value": "b"
-        }
-      ]
-    }
+    "items": [
+      {
+        "type": "symbol",
+        "value": "sum"
+      },
+      {
+        "type": "symbol",
+        "value": "a"
+      },
+      {
+        "type": "symbol",
+        "value": "b"
+      }
+    ]
   },
   {
     "type": "list",
