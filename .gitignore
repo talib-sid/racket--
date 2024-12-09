@@ -3,3 +3,6 @@ __pycache__
 *.o
 *.exe
 *.out
+examp.rkt
+parso.py
+todo.txt
