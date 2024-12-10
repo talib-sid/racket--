@@ -53,9 +53,19 @@ class CPlusPlusCodeGenerator:
             return self.generate_list_declaration(node)
         elif node['type'] == 'ListOperation':
             return self.generate_list_operation(node)
+        elif node['type'] == 'IfStatement':
+            return self.generate_if_statement(node)
         else:
-            return f"Error"
+            return f"Errorr {node['type']}"
         
+    def generate_if_statement(self, node):
+        condition = self.handle_node(node['cond'])
+        then_branch = self.handle_node(node['then'])
+        else_branch = self.handle_node(node['elze'])
+
+        cpp_code = f"if ({condition}) {{\n  return {then_branch};\n}} else {{\n  return {else_branch};\n}}"
+        return cpp_code
+
     
     def generate_function_call(self, node, addToMain=True):
         # print(node)
@@ -135,8 +145,10 @@ class CPlusPlusCodeGenerator:
         list_name = self.sanitize_identifier(node['name'])
         items = [item['value'] for item in node['items']]
         items_str = ", ".join(map(str, items))  # Convert the items to a comma-separated string
+        # return f"\tauto {list_name} = {{ {items_str} }};"
         return f"\tstd::vector<int> {list_name} = {{ {items_str} }};"
-    
+
+
     def generate_list_operation(self, node):
         operator = node["operator"]
         args = [self.handle_node(arg) for arg in node["args"]]
