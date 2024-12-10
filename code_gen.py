@@ -12,6 +12,7 @@ class CPlusPlusCodeGenerator:
         self.main_calls = []
         self.main_code = "int main() {\n"
         self.code = ""
+        self.cons_defined = False;
        
 
     def generate_code(self):
@@ -135,25 +136,7 @@ class CPlusPlusCodeGenerator:
         items = [item['value'] for item in node['items']]
         items_str = ", ".join(map(str, items))  # Convert the items to a comma-separated string
         return f"\tstd::vector<int> {list_name} = {{ {items_str} }};"
-
-    # def generate_list_operation(self, node):
-    #     operator = node["operator"]
-    #     args = [self.handle_node(arg) for arg in node["args"]]
-
-    #     if operator == "car":
-    #         # Access the first element of the vector
-    #         return f"{args[0]}.front();\n"
-    #     elif operator == "cdr":
-    #         # Create a subvector excluding the first element
-    #         return f"std::vector<int>({args[0]}.begin() + 1, {args[0]}.end());\n"
-    #     elif operator == "cons":
-    #         # Add a new element at the front of the vector
-    #         # return f"([]{{ std::vector<int> temp = {{ {args[0]} }}; temp.insert(temp.end(), {args[1]}.begin(), {args[1]}.end()); return temp; }}())"
-    #         return f"std::vector<int> {args[1]}.emplace({args[1]}.begin(),{args[0]});\n"
-        
-    #     else:
-    #         raise ValueError(f"Unsupported list operation: {operator}")
-
+    
     def generate_list_operation(self, node):
         operator = node["operator"]
         args = [self.handle_node(arg) for arg in node["args"]]
@@ -166,7 +149,19 @@ class CPlusPlusCodeGenerator:
             return f"std::vector<int>({args[0]}.begin() + 1, {args[0]}.end())"
         elif operator == "cons":
             # Add a new element at the front of the vector
-            return f"([]{{ std::vector<int> temp = {{ {args[0]} }}; temp.insert(temp.end(), {args[1]}.begin(), {args[1]}.end()); return temp; }}())"
+            # created a function to handle the cons operation
+            
+            # call the function in main
+            call = f"cons({args[1]} ,{args[0]})"
+            self.main_calls.append(call)
+
+            if(self.cons_defined == False):
+                self.cons_defined = True
+                return "\n\ntemplate <typename T>\n\nvoid cons(vector<T>& mylist, T elem){\n\tmylist.insert(mylist.begin(), elem);\n}"
+            else:
+                return ""
+            # self.cons_defined = True
+            # return f"([]{{ std::vector<int> temp = {{ {args[0]} }}; temp.insert(temp.end(), {args[1]}.begin(), {args[1]}.end()); return temp; }}())"
         else:
             raise ValueError(f"Unsupported list operation: {operator}")
 

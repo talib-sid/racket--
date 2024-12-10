@@ -1,5 +1,0 @@
-
-Transpiler to convert Racket source code to C++ 
-
-
-Add initial implementation of Racket to C++ transpiler with basic structure and parser

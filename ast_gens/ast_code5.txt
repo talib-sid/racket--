@@ -32,24 +32,18 @@
     }
   },
   {
-    "type": "ListOperation",
-    "operator": "car",
-    "args": [
-      {
-        "type": "symbol",
-        "value": "mylist"
-      }
-    ]
-  },
-  {
-    "type": "ListOperation",
-    "operator": "cdr",
-    "args": [
-      {
-        "type": "symbol",
-        "value": "mylist"
-      }
-    ]
+    "type": "VariableDeclaration",
+    "name": "b",
+    "value": {
+      "type": "ListOperation",
+      "operator": "cdr",
+      "args": [
+        {
+          "type": "symbol",
+          "value": "mylist"
+        }
+      ]
+    }
   },
   {
     "type": "ListOperation",
